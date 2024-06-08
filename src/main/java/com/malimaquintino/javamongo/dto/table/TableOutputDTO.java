@@ -1,4 +1,4 @@
-package com.malimaquintino.javamongo.dto.database;
+package com.malimaquintino.javamongo.dto.table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,14 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DatabaseOutputDTO {
+public class TableOutputDTO {
     private String id;
     private String qualifiedName;
+    private String schema;
     private String name;
-    private String intTechnology;
-    private String databaseId;
-    private String containerId;
-    private String hostName;
+    private String comment;
     private String status;
-    private String environment;
 }
