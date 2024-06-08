@@ -1,0 +1,9 @@
+com/malimaquintino/javamongo/dto/database/DatabaseOutputDTO.class
+com/malimaquintino/javamongo/controllers/v1/DatabaseController.class
+com/malimaquintino/javamongo/dto/database/DatabaseInputDTO.class
+com/malimaquintino/javamongo/models/Database$DatabaseBuilder.class
+com/malimaquintino/javamongo/repositories/DatabaseRepository.class
+com/malimaquintino/javamongo/JavamongoApplication.class
+com/malimaquintino/javamongo/services/DatabaseService.class
+com/malimaquintino/javamongo/dto/database/DatabaseOutputDTO$DatabaseOutputDTOBuilder.class
+com/malimaquintino/javamongo/models/Database.class
