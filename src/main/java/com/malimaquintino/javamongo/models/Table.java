@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 public class Table {
     @Id
     private String id;
+    @Indexed(unique = true)
     private String qualifiedName;
     private String schema;
     private String name;

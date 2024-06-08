@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 @Data
 @Builder
@@ -16,6 +17,7 @@ import org.springframework.data.annotation.Id;
 public class Column {
     @Id
     private String id;
+    @Indexed(unique = true)
     private String qualifiedName;
     private String name;
     private String comment;
