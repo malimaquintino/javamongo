@@ -12,8 +12,4 @@ spring:
     name: javamongo
   data:
     mongodb:
-      host: mongo
-      port: 27017
-      database: datacatalog
-      username: root
-      password: root
+      uri: mongodb://root:root@localhost:27017/datacatalog?authSource=admin

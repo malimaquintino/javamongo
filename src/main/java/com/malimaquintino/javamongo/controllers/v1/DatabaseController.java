@@ -30,4 +30,11 @@ public class DatabaseController {
         DatabaseOutputDTO databaseOutputDTO = databaseService.updateDatabase(inputDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(databaseOutputDTO);
     }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findById(@PathVariable String id) {
+        log.info("Get database by id {}", id);
+        DatabaseOutputDTO databaseOutputDTO = databaseService.findDatabaseById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(databaseOutputDTO);
+    }
 }

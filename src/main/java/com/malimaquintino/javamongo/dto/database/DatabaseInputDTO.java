@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 public class DatabaseInputDTO {
     private String qualifiedName;
     private String namDatabase;
-    private String intTechnology;
+    private String indTechnology;
     private String databaseId;
     private String containerId;
+    private String hostName;
 }

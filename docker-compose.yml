@@ -2,12 +2,11 @@ version: '3.5'
 
 services:
   mongo:
-    container_name: postgres_container
+    container_name: mongo_container
     image: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-      PGDATA: /data/postgres
     volumes:
       - ./databases/mongo:/data/db
     ports:
@@ -25,21 +24,21 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: root
       ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
-      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_BASICAUTH: 0
     networks:
       - app-network
 
-  java-app:
-    build:
-      context: .
-    container_name: java-mongo
-    command: "java -jar /app/runner.jar"
-    depends_on:
-      - mongo
-    networks:
-      - app-network
-    ports:
-      - "8080:8080"
+#  java-app:
+#    build:
+#      context: .
+#    container_name: java-mongo
+#    command: "java -jar /app/runner.jar"
+#    depends_on:
+#      - mongo
+#    networks:
+#      - app-network
+#    ports:
+#      - "8080:8080"
 
 networks:
   app-network:

@@ -17,15 +17,5 @@ public class DatabaseOutputDTO {
     private String intTechnology;
     private String databaseId;
     private String containerId;
-
-    public static DatabaseOutputDTO parseToDTO(Database database) {
-        return DatabaseOutputDTO.builder()
-                .id(database.getDatabaseId())
-                .qualifiedName(database.getQualifiedName())
-                .namDatabase(database.getNamDatabase())
-                .intTechnology(database.getIntTechnology())
-                .databaseId(database.getDatabaseId())
-                .containerId(database.getContainerId())
-                .build();
-    }
+    private String hostName;
 }
