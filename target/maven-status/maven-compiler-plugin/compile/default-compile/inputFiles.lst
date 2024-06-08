@@ -1,7 +1,0 @@
-/home/matheus/projeto/javamongo/src/main/java/com/malimaquintino/javamongo/JavamongoApplication.java
-/home/matheus/projeto/javamongo/src/main/java/com/malimaquintino/javamongo/controllers/v1/DatabaseController.java
-/home/matheus/projeto/javamongo/src/main/java/com/malimaquintino/javamongo/dto/database/DatabaseInputDTO.java
-/home/matheus/projeto/javamongo/src/main/java/com/malimaquintino/javamongo/dto/database/DatabaseOutputDTO.java
-/home/matheus/projeto/javamongo/src/main/java/com/malimaquintino/javamongo/models/Database.java
-/home/matheus/projeto/javamongo/src/main/java/com/malimaquintino/javamongo/repositories/DatabaseRepository.java
-/home/matheus/projeto/javamongo/src/main/java/com/malimaquintino/javamongo/services/DatabaseService.java
