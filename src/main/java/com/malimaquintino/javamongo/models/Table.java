@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -45,5 +48,13 @@ public class Table {
                 .comment(table.getComment())
                 .status(table.getStatus().toString())
                 .build();
+    }
+
+    public static List<TableOutputDTO> parseListToDTO(Set<Table> tables) {
+        List<TableOutputDTO> result = new ArrayList<>();
+        if (Objects.nonNull(tables) && !tables.isEmpty()) {
+            tables.forEach(table -> result.add(parseToDTO(table)));
+        }
+        return result;
     }
 }

@@ -2,6 +2,7 @@ package com.malimaquintino.javamongo.models;
 
 import com.malimaquintino.javamongo.dto.database.DatabaseInputDTO;
 import com.malimaquintino.javamongo.dto.database.DatabaseOutputDTO;
+import com.malimaquintino.javamongo.dto.table.TableOutputDTO;
 import com.malimaquintino.javamongo.enums.Environment;
 import com.malimaquintino.javamongo.enums.Status;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -29,7 +32,7 @@ public class Database {
     private String hostName;
     private Status status;
     private Environment environment;
-    private Set<Table> tables;
+    private Set<Table> tables = new HashSet<>();
 
     public static Database parseFromDto(DatabaseInputDTO databaseInputDTO, String id) {
         return Database.builder()
@@ -46,6 +49,7 @@ public class Database {
     }
 
     public static DatabaseOutputDTO parseToDTO(Database database) {
+        List<TableOutputDTO> tables = Table.parseListToDTO(database.getTables());
         return DatabaseOutputDTO.builder()
                 .id(database.getId())
                 .qualifiedName(database.getQualifiedName())
@@ -56,6 +60,7 @@ public class Database {
                 .hostName(database.getHostName())
                 .status(database.getStatus().toString())
                 .environment(database.getEnvironment().toString())
+                .tables(tables)
                 .build();
     }
 }

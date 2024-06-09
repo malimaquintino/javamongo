@@ -1,9 +1,12 @@
 package com.malimaquintino.javamongo.dto.database;
 
+import com.malimaquintino.javamongo.dto.table.TableOutputDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -19,4 +22,5 @@ public class DatabaseOutputDTO {
     private String hostName;
     private String status;
     private String environment;
+    private List<TableOutputDTO> tables;
 }

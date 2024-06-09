@@ -13,3 +13,12 @@ spring:
   data:
     mongodb:
       uri: mongodb://root:root@localhost:27017/datacatalog?authSource=admin
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
