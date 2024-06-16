@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -37,7 +38,6 @@ public class Database {
     public static Database parseFromDto(DatabaseInputDTO databaseInputDTO, String id) {
         return Database.builder()
                 .id(id)
-                .qualifiedName(databaseInputDTO.getQualifiedName())
                 .name(databaseInputDTO.getName())
                 .indTechnology(databaseInputDTO.getIndTechnology())
                 .databaseId(databaseInputDTO.getDatabaseId())
@@ -62,5 +62,18 @@ public class Database {
                 .environment(database.getEnvironment().toString())
                 .tables(tables)
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Database database = (Database) o;
+        return Objects.equals(id, database.id) && Objects.equals(qualifiedName, database.qualifiedName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, qualifiedName);
     }
 }

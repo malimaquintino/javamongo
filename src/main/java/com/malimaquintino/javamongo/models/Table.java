@@ -58,4 +58,17 @@ public class Table {
         }
         return result;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Table table = (Table) o;
+        return Objects.equals(id, table.id) && Objects.equals(qualifiedName, table.qualifiedName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, qualifiedName);
+    }
 }
