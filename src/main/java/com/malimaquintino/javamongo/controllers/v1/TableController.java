@@ -26,7 +26,7 @@ public class TableController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateTable(@PathVariable String id, @RequestBody TableInputDTO inputDto) {
-        log.info("Update database {}", id);
+        log.info("Update table {}", id);
         TableOutputDTO tableOutputDTO = tableService.updateTable(inputDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(tableOutputDTO);
     }

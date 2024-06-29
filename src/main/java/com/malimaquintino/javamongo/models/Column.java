@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.util.Objects;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -24,8 +26,10 @@ public class Column {
     private Status status;
     private Table table;
 
-    public static Column parseFromDto(ColumnInputDTO columnInputDTO) {
+    public static Column parseFromDto(ColumnInputDTO columnInputDTO, String qualifiedName, String id) {
         return Column.builder()
+                .id(id)
+                .qualifiedName(qualifiedName)
                 .name(columnInputDTO.getName())
                 .comment(columnInputDTO.getComment())
                 .status(Status.valueOf(columnInputDTO.getStatus()))
@@ -34,10 +38,24 @@ public class Column {
 
     public static ColumnOutputDTO parseToDTO(Column column) {
         return ColumnOutputDTO.builder()
+                .id(column.getId())
                 .qualifiedName(column.getQualifiedName())
                 .name(column.getName())
                 .comment(column.getComment())
                 .status(column.getStatus().toString())
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Column column = (Column) o;
+        return Objects.equals(id, column.id) && Objects.equals(qualifiedName, column.qualifiedName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, qualifiedName);
     }
 }

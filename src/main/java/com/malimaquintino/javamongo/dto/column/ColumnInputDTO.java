@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ColumnInputDTO {
+    private String tableQualifiedname;
     private String name;
     private String comment;
     private String status;

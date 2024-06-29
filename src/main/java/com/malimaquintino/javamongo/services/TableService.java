@@ -9,6 +9,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Log4j2
 public class TableService {
@@ -45,6 +47,19 @@ public class TableService {
             return Table.parseToDTO(updatedTable);
         } catch (Exception e) {
             log.error("error on updateDatabase msg={} cause{}", e.getMessage(), e.getCause());
+            throw e;
+        }
+    }
+
+    public Table findTableByQualifiedname(String qualifiedName) {
+        try {
+            Optional<Table> optionalTable = tableRepository.findByQualifiedName(qualifiedName);
+            if (optionalTable.isEmpty()) {
+                throw new RuntimeException("Table not found");
+            }
+            return optionalTable.get();
+        } catch (Exception e) {
+            log.error("error on findTableByQualifiedname msg={} cause{}", e.getMessage(), e.getCause());
             throw e;
         }
     }
