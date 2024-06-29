@@ -48,18 +48,26 @@ public class DatabaseService {
         }
     }
 
-    public DatabaseOutputDTO updateDatabaseByQualifiedName(String qualifiedName, Table newTable) {
+    public void updateDatabase(Database database, Table newTable) {
+        try {
+            database.getTables().remove(newTable);
+            database.getTables().add(newTable);
+            databaseRepository.save(database);
+        } catch (Exception e) {
+            log.error("error on updateDatabase msg={} cause{}", e.getMessage(), e.getCause());
+            throw e;
+        }
+    }
+
+    public Database findDatabaseByQualifiedname(String qualifiedName) {
         try {
             Optional<Database> optionalDatabase = databaseRepository.findByQualifiedName(qualifiedName);
             if (optionalDatabase.isEmpty()) {
                 throw new RuntimeException("Database not found");
             }
-            Database database = optionalDatabase.get();
-            database.getTables().add(newTable);
-            Database updatedDatabase = databaseRepository.save(database);
-            return Database.parseToDTO(updatedDatabase);
+            return optionalDatabase.get();
         } catch (Exception e) {
-            log.error("error on updateDatabaseByQualifiedName msg={} cause{}", e.getMessage(), e.getCause());
+            log.error("error on findDatabaseByQualifiedname msg={} cause{}", e.getMessage(), e.getCause());
             throw e;
         }
     }
@@ -78,6 +86,6 @@ public class DatabaseService {
     }
 
     public String generateQualifiedName(Database database) {
-        return String.format(database.getEnvironment().toString().toUpperCase(), "-", database.getName().toUpperCase());
+        return database.getEnvironment().toString().toUpperCase() + "-" + database.getName().toUpperCase();
     }
 }

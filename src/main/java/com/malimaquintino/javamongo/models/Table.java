@@ -31,9 +31,10 @@ public class Table {
     private Database database;
     private Set<Column> columns;
 
-    public static Table parseFromDto(TableInputDTO tableInputDTO, String id) {
+    public static Table parseFromDto(TableInputDTO tableInputDTO, String qualifiedName, String id) {
         return Table.builder()
                 .id(id)
+                .qualifiedName(qualifiedName)
                 .schema(tableInputDTO.getSchema())
                 .name(tableInputDTO.getName())
                 .comment(tableInputDTO.getComment())
@@ -43,6 +44,7 @@ public class Table {
 
     public static TableOutputDTO parseToDTO(Table table) {
         return TableOutputDTO.builder()
+                .id(table.getId())
                 .qualifiedName(table.getQualifiedName())
                 .schema(table.getSchema())
                 .name(table.getName())

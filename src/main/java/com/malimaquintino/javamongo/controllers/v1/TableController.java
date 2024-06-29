@@ -1,7 +1,7 @@
 package com.malimaquintino.javamongo.controllers.v1;
 
-import com.malimaquintino.javamongo.dto.database.DatabaseOutputDTO;
 import com.malimaquintino.javamongo.dto.table.TableInputDTO;
+import com.malimaquintino.javamongo.dto.table.TableOutputDTO;
 import com.malimaquintino.javamongo.services.TableService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +20,14 @@ public class TableController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createTable(@RequestBody TableInputDTO inputDto) {
         log.info("Create new table");
-        DatabaseOutputDTO databaseOutputDTO = tableService.createTable(inputDto);
-        return ResponseEntity.status(HttpStatus.OK).body(databaseOutputDTO);
+        TableOutputDTO tableOutputDTO = tableService.createTable(inputDto);
+        return ResponseEntity.status(HttpStatus.OK).body(tableOutputDTO);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateTable(@PathVariable String id, @RequestBody TableInputDTO inputDto) {
         log.info("Update database {}", id);
-        DatabaseOutputDTO databaseOutputDTO = tableService.updateTable(inputDto, id);
-        return ResponseEntity.status(HttpStatus.OK).body(databaseOutputDTO);
+        TableOutputDTO tableOutputDTO = tableService.updateTable(inputDto, id);
+        return ResponseEntity.status(HttpStatus.OK).body(tableOutputDTO);
     }
 }

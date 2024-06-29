@@ -1,7 +1,8 @@
 package com.malimaquintino.javamongo.services;
 
-import com.malimaquintino.javamongo.dto.database.DatabaseOutputDTO;
 import com.malimaquintino.javamongo.dto.table.TableInputDTO;
+import com.malimaquintino.javamongo.dto.table.TableOutputDTO;
+import com.malimaquintino.javamongo.models.Database;
 import com.malimaquintino.javamongo.models.Table;
 import com.malimaquintino.javamongo.repositories.TableRepository;
 import lombok.extern.log4j.Log4j2;
@@ -17,28 +18,38 @@ public class TableService {
     @Autowired
     private TableRepository tableRepository;
 
-    public DatabaseOutputDTO createTable(TableInputDTO tableInputDTO) {
+    public TableOutputDTO createTable(TableInputDTO tableInputDTO) {
         try {
-            Table newTable = tableRepository.save(Table.parseFromDto(tableInputDTO, null));
-            return databaseService.updateDatabaseByQualifiedName(tableInputDTO.getDatabaseQualifiedName(), newTable);
+            Database database = databaseService.findDatabaseByQualifiedname(tableInputDTO.getDatabaseQualifiedName());
+            String qualifiedName = generateQualifiedname(database, tableInputDTO.getSchema(), tableInputDTO.getName());
+            Table newTable = tableRepository.save(Table.parseFromDto(tableInputDTO, qualifiedName, null));
+            databaseService.updateDatabase(database, newTable);
+            return Table.parseToDTO(newTable);
         } catch (Exception e) {
             log.error("error on createTable msg={} cause{}", e.getMessage(), e.getCause());
             throw e;
         }
     }
 
-    public DatabaseOutputDTO updateTable(TableInputDTO tableInputDTO, String id) {
+    public TableOutputDTO updateTable(TableInputDTO tableInputDTO, String id) {
         try {
             boolean foundTable = tableRepository.findById(id).isPresent();
             if (!foundTable) {
                 throw new RuntimeException("Not found");
             }
 
-            Table updatedTable = tableRepository.save(Table.parseFromDto(tableInputDTO, id));
-            return databaseService.updateDatabaseByQualifiedName(tableInputDTO.getDatabaseQualifiedName(), updatedTable);
+            Database database = databaseService.findDatabaseByQualifiedname(tableInputDTO.getDatabaseQualifiedName());
+            String qualifiedName = generateQualifiedname(database, tableInputDTO.getSchema(), tableInputDTO.getName());
+            Table updatedTable = tableRepository.save(Table.parseFromDto(tableInputDTO, qualifiedName, id));
+            databaseService.updateDatabase(database, updatedTable);
+            return Table.parseToDTO(updatedTable);
         } catch (Exception e) {
             log.error("error on updateDatabase msg={} cause{}", e.getMessage(), e.getCause());
             throw e;
         }
+    }
+
+    public String generateQualifiedname(Database database, String schema, String name) {
+        return database.getQualifiedName() + "-" + schema.toUpperCase() + "-" + name.toUpperCase();
     }
 }
