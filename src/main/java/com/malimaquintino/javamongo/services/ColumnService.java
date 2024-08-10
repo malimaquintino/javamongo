@@ -21,9 +21,9 @@ public class ColumnService {
     public ColumnOutputDTO createColumn(ColumnInputDTO columnInputDTO) {
         try {
             Table table = tableService.findTableByQualifiedname(columnInputDTO.getTableQualifiedname());
-            String qualifiedname = generateQualifiedname(table, columnInputDTO.getName());
-            Column newColumn = columnRepository.save(Column.parseFromDto(columnInputDTO, qualifiedname, null));
-            // todo save column in table
+            String columQualifiedname = generateQualifiedname(table, columnInputDTO.getName());
+            Column newColumn = columnRepository.save(Column.parseFromDto(columnInputDTO, table, columQualifiedname, null));
+            tableService.updateTable(columnInputDTO.getDatabaseQualifiedname(), table, newColumn);
             return Column.parseToDTO(newColumn);
         } catch (Exception e) {
             log.error("error on createColumn msg={} cause{}", e.getMessage(), e.getCause());
@@ -40,8 +40,8 @@ public class ColumnService {
 
             Table table = tableService.findTableByQualifiedname(columnInputDTO.getTableQualifiedname());
             String qualifiedname = generateQualifiedname(table, columnInputDTO.getName());
-            Column newColumn = columnRepository.save(Column.parseFromDto(columnInputDTO, qualifiedname, id));
-            // todo save column in table
+            Column newColumn = columnRepository.save(Column.parseFromDto(columnInputDTO, table, qualifiedname, id));
+            tableService.updateTable(columnInputDTO.getDatabaseQualifiedname(), table, newColumn);
             return Column.parseToDTO(newColumn);
         } catch (Exception e) {
             log.error("error on updateColumn msg={} cause{}", e.getMessage(), e.getCause());

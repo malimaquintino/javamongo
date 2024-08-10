@@ -2,6 +2,7 @@ package com.malimaquintino.javamongo.services;
 
 import com.malimaquintino.javamongo.dto.table.TableInputDTO;
 import com.malimaquintino.javamongo.dto.table.TableOutputDTO;
+import com.malimaquintino.javamongo.models.Column;
 import com.malimaquintino.javamongo.models.Database;
 import com.malimaquintino.javamongo.models.Table;
 import com.malimaquintino.javamongo.repositories.TableRepository;
@@ -47,6 +48,19 @@ public class TableService {
             return Table.parseToDTO(updatedTable);
         } catch (Exception e) {
             log.error("error on updateDatabase msg={} cause{}", e.getMessage(), e.getCause());
+            throw e;
+        }
+    }
+
+    public void updateTable(String databaseQualifiedname, Table table, Column column) {
+        try {
+            table.getColumns().remove(column);
+            table.getColumns().add(column);
+            tableRepository.save(table);
+            Database database = databaseService.findDatabaseByQualifiedname(databaseQualifiedname);
+            databaseService.updateDatabase(database, table);
+        } catch (Exception e) {
+            log.error("error on updateTable msg={} cause{}", e.getMessage(), e.getCause());
             throw e;
         }
     }

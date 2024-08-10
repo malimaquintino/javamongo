@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Builder
@@ -29,7 +26,7 @@ public class Table {
     private String comment;
     private Status status;
     private Database database;
-    private Set<Column> columns;
+    private Set<Column> columns = new HashSet<>();
 
     public static Table parseFromDto(TableInputDTO tableInputDTO, String qualifiedName, String id) {
         return Table.builder()

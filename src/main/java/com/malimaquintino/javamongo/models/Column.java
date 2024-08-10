@@ -26,13 +26,14 @@ public class Column {
     private Status status;
     private Table table;
 
-    public static Column parseFromDto(ColumnInputDTO columnInputDTO, String qualifiedName, String id) {
+    public static Column parseFromDto(ColumnInputDTO columnInputDTO, Table table, String qualifiedName, String id) {
         return Column.builder()
                 .id(id)
                 .qualifiedName(qualifiedName)
                 .name(columnInputDTO.getName())
                 .comment(columnInputDTO.getComment())
                 .status(Status.valueOf(columnInputDTO.getStatus()))
+                .table(table)
                 .build();
     }
 
