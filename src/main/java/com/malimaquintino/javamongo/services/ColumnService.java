@@ -2,12 +2,15 @@ package com.malimaquintino.javamongo.services;
 
 import com.malimaquintino.javamongo.dto.column.ColumnInputDTO;
 import com.malimaquintino.javamongo.dto.column.ColumnOutputDTO;
+import com.malimaquintino.javamongo.exception.ResourceNotFoundException;
 import com.malimaquintino.javamongo.models.Column;
 import com.malimaquintino.javamongo.models.Table;
 import com.malimaquintino.javamongo.repositories.ColumnRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @Log4j2
@@ -21,6 +24,9 @@ public class ColumnService {
     public ColumnOutputDTO createColumn(ColumnInputDTO columnInputDTO) {
         try {
             Table table = tableService.findTableByQualifiedname(columnInputDTO.getTableQualifiedname());
+            if (Objects.isNull(table)) {
+                throw new ResourceNotFoundException("Table not found");
+            }
             String columQualifiedname = generateQualifiedname(table, columnInputDTO.getName());
             Column newColumn = columnRepository.save(Column.parseFromDto(columnInputDTO, table, columQualifiedname, null));
             tableService.updateTable(columnInputDTO.getDatabaseQualifiedname(), table, newColumn);
@@ -35,10 +41,13 @@ public class ColumnService {
         try {
             boolean foundColumn = columnRepository.findById(id).isPresent();
             if (!foundColumn) {
-                throw new RuntimeException("Not found");
+                throw new ResourceNotFoundException("Column not found");
             }
 
             Table table = tableService.findTableByQualifiedname(columnInputDTO.getTableQualifiedname());
+            if (Objects.isNull(table)) {
+                throw new ResourceNotFoundException("Table not found");
+            }
             String qualifiedname = generateQualifiedname(table, columnInputDTO.getName());
             Column newColumn = columnRepository.save(Column.parseFromDto(columnInputDTO, table, qualifiedname, id));
             tableService.updateTable(columnInputDTO.getDatabaseQualifiedname(), table, newColumn);

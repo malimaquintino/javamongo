@@ -2,6 +2,7 @@ package com.malimaquintino.javamongo.services;
 
 import com.malimaquintino.javamongo.dto.database.DatabaseInputDTO;
 import com.malimaquintino.javamongo.dto.database.DatabaseOutputDTO;
+import com.malimaquintino.javamongo.exception.ResourceNotFoundException;
 import com.malimaquintino.javamongo.models.Database;
 import com.malimaquintino.javamongo.models.Table;
 import com.malimaquintino.javamongo.repositories.DatabaseRepository;
@@ -36,7 +37,7 @@ public class DatabaseService {
 
             boolean foundDatabase = databaseRepository.findById(id).isPresent();
             if (!foundDatabase) {
-                throw new RuntimeException("Not found");
+                throw new ResourceNotFoundException("Database not found");
             }
             Database database = Database.parseFromDto(databaseInputDTO, id);
             database.setQualifiedName(generateQualifiedName(database));
@@ -63,7 +64,7 @@ public class DatabaseService {
         try {
             Optional<Database> optionalDatabase = databaseRepository.findByQualifiedName(qualifiedName);
             if (optionalDatabase.isEmpty()) {
-                throw new RuntimeException("Database not found");
+                throw new ResourceNotFoundException("Database not found");
             }
             return optionalDatabase.get();
         } catch (Exception e) {
@@ -76,7 +77,7 @@ public class DatabaseService {
         try {
             Database foundDatabase = databaseRepository.findById(id).orElse(null);
             if (Objects.isNull(foundDatabase)) {
-                throw new RuntimeException("Not found");
+                throw new ResourceNotFoundException("Database not found");
             }
             return Database.parseToDTO(foundDatabase);
         } catch (Exception e) {

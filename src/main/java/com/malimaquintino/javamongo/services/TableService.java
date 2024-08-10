@@ -2,6 +2,7 @@ package com.malimaquintino.javamongo.services;
 
 import com.malimaquintino.javamongo.dto.table.TableInputDTO;
 import com.malimaquintino.javamongo.dto.table.TableOutputDTO;
+import com.malimaquintino.javamongo.exception.ResourceNotFoundException;
 import com.malimaquintino.javamongo.models.Column;
 import com.malimaquintino.javamongo.models.Database;
 import com.malimaquintino.javamongo.models.Table;
@@ -10,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -24,6 +26,9 @@ public class TableService {
     public TableOutputDTO createTable(TableInputDTO tableInputDTO) {
         try {
             Database database = databaseService.findDatabaseByQualifiedname(tableInputDTO.getDatabaseQualifiedName());
+            if (Objects.isNull(database)) {
+                throw new ResourceNotFoundException("Database not found");
+            }
             String qualifiedName = generateQualifiedname(database, tableInputDTO.getSchema(), tableInputDTO.getName());
             Table newTable = tableRepository.save(Table.parseFromDto(tableInputDTO, qualifiedName, null));
             databaseService.updateDatabase(database, newTable);
@@ -38,10 +43,14 @@ public class TableService {
         try {
             boolean foundTable = tableRepository.findById(id).isPresent();
             if (!foundTable) {
-                throw new RuntimeException("Not found");
+                throw new ResourceNotFoundException("Table not found");
             }
 
             Database database = databaseService.findDatabaseByQualifiedname(tableInputDTO.getDatabaseQualifiedName());
+            if (Objects.isNull(database)) {
+                throw new ResourceNotFoundException("Database not found");
+            }
+
             String qualifiedName = generateQualifiedname(database, tableInputDTO.getSchema(), tableInputDTO.getName());
             Table updatedTable = tableRepository.save(Table.parseFromDto(tableInputDTO, qualifiedName, id));
             databaseService.updateDatabase(database, updatedTable);
@@ -58,6 +67,9 @@ public class TableService {
             table.getColumns().add(column);
             tableRepository.save(table);
             Database database = databaseService.findDatabaseByQualifiedname(databaseQualifiedname);
+            if (Objects.isNull(database)) {
+                throw new ResourceNotFoundException("Database not found");
+            }
             databaseService.updateDatabase(database, table);
         } catch (Exception e) {
             log.error("error on updateTable msg={} cause{}", e.getMessage(), e.getCause());
@@ -69,7 +81,7 @@ public class TableService {
         try {
             Optional<Table> optionalTable = tableRepository.findByQualifiedName(qualifiedName);
             if (optionalTable.isEmpty()) {
-                throw new RuntimeException("Table not found");
+                throw new ResourceNotFoundException("Table not found");
             }
             return optionalTable.get();
         } catch (Exception e) {
