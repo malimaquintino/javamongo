@@ -1,6 +1,7 @@
 package com.malimaquintino.javamongo.services;
 
-import com.malimaquintino.javamongo.repositories.MetadataRepository;
+import com.malimaquintino.javamongo.dto.DatabaseInputDTO;
+import com.malimaquintino.javamongo.util.MockDataGen;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class DataGenerator {
 
     @Autowired
-    private MetadataRepository metadataRepository;
+    private MetadataService metadataService;
 
     @Value("${application.generateData}")
     private int flgDataGen;
@@ -21,7 +22,18 @@ public class DataGenerator {
     @Bean
     public void generateData() {
         if (flgDataGen == 1) {
-            log.info("generating data...");
+            for (int i = 0; i < 100; i++) {
+                log.info("generating data...");
+                DatabaseInputDTO databaseInputDTO = MockDataGen.generateDatabase();
+                log.info("data generated");
+                metadataService.create(databaseInputDTO);
+                log.info("Metadata created! database={} numTables={}",
+                        databaseInputDTO.getName(),
+                        databaseInputDTO.getTables().size()
+                );
+            }
+            log.info("END");
         }
     }
+
 }
