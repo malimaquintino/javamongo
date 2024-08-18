@@ -1,7 +1,7 @@
 application:
   title: Java Mongo
   version: 0.0.1-SNAPSHOT
-  generateData: 1
+  generateData: 0
 
 environment: local
 
