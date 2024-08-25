@@ -23,6 +23,7 @@ import java.util.Set;
 public class Database {
     @Id
     private String id;
+    private String type;
     private String qualifiedName;
     private String name;
     private String indTechnology;
@@ -45,6 +46,7 @@ public class Database {
                 .status(Status.valueOf(databaseInputDTO.getStatus()))
                 .environment(Environment.valueOf(databaseInputDTO.getEnvironment()))
                 .tables(parseTablesFromDto(databaseInputDTO.getTables(), qualifiedName))
+                .type("DATABASE")
                 .build();
     }
 

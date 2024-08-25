@@ -18,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Table {
+    private String type;
     private String qualifiedName;
     private String schema;
     private String name;
@@ -34,6 +35,7 @@ public class Table {
                 .comment(tableInputDTO.getComment())
                 .status(Status.valueOf(tableInputDTO.getStatus()))
                 .columns(parseColumnsFromDto(tableInputDTO.getColumns(), tableQualifiedname))
+                .type("TABLE")
                 .build();
     }
 

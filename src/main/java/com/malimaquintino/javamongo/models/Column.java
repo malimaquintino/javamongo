@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Column {
+    private String type;
     private String qualifiedName;
     private String name;
     private String comment;
@@ -24,6 +25,7 @@ public class Column {
                 .name(columnInputDTO.getName())
                 .comment(columnInputDTO.getComment())
                 .status(Status.valueOf(columnInputDTO.getStatus()))
+                .type("COLUMN")
                 .build();
     }
 
