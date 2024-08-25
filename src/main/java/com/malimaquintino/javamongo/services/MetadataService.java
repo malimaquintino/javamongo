@@ -8,9 +8,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.Fields;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class MetadataService {
 
     public TotalOutputDTO getTotals() {
         try {
-            long databases = 0;
+            long databases = getTotalDatabases();
             long tables = getTotalTables();
             long columns = getTotalColumns();
             return new TotalOutputDTO(databases, tables, columns);
@@ -113,27 +113,30 @@ public class MetadataService {
      */
     private long getTotalTables() {
         try {
-            // 1. $project: { tablesCount: { $size: "$tables" } }
-            AggregationOperation projectStage = project()
-                    .andExpression("$size: '$tables'").as("tablesCount");
-
-            // 2. $group: { _id: null, totalTables: { $sum: "$tablesCount" } }
-//            AggregationOperation groupStage = group(Fields.fields())
-//                    .sum("tablesCount").as("totalTables");
 
             Aggregation aggregation = newAggregation(
-                    project("$size:", "'$tables'"),
-                    group(Fields.fields()).count().as("totalTables")
+                    project()
+                            .andExpression("{$size: '$tables'}").as("tablesCount"),
+                    group(Fields.fields())
+                            .sum("tablesCount").as("totalTables")
             );
 
-            // Executa a agregação
-//            Aggregation aggregation = newAggregation(projectStage, groupStage);
+            // Executando a agregação
             AggregationResults<TotalTablesDTO> result = mongoTemplate.aggregate(aggregation, "metadata", TotalTablesDTO.class);
-            TotalTablesDTO totalTables = result.getUniqueMappedResult();
+            TotalTablesDTO total = result.getUniqueMappedResult();
 
-            return totalTables != null ? totalTables.getTotalTables() : 0;
+            return total != null ? total.getTotalTables() : 0;
         } catch (Exception e) {
             log.error("error on get columns total msg={} cause={}", e.getMessage(), e.getCause());
+            throw e;
+        }
+    }
+
+    private long getTotalDatabases() {
+        try {
+            return mongoTemplate.count(new Query(), Database.class);
+        } catch (Exception e) {
+            log.error("error on get databases total msg={} cause={}", e.getMessage(), e.getCause());
             throw e;
         }
     }
