@@ -6,6 +6,8 @@ import com.malimaquintino.javamongo.models.Database;
 import com.malimaquintino.javamongo.repositories.MetadataRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -49,9 +51,9 @@ public class MetadataService {
         }
     }
 
-    public List<Database> search(SearchInputDTO searchInputDTO) {
+    public Page<Database> search(SearchInputDTO searchInputDTO, Pageable pageable) {
         try {
-            List<Database> databases = metadataRepository.searchInAllFields(searchInputDTO.getSearch());
+            Page<Database> databases = metadataRepository.searchInAllFields(searchInputDTO.getSearch(), pageable);
             if (databases.isEmpty()) {
                 throw new ResourceNotFoundException("Nothing found!");
             }

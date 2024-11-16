@@ -1,6 +1,8 @@
 package com.malimaquintino.javamongo.repositories;
 
 import com.malimaquintino.javamongo.models.Database;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,5 +21,5 @@ public interface MetadataRepository extends MongoRepository<Database, String> {
               }
             }
             """)
-    List<Database> searchInAllFields(String search);
+    Page<Database> searchInAllFields(String search, Pageable pageable);
 }
