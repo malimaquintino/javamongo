@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Log4j2
 
@@ -22,16 +24,11 @@ public class DataGenerator {
     @Bean
     public void generateData() {
         if (flgDataGen == 1) {
-            for (int i = 0; i < 100; i++) {
+
                 log.info("generating data...");
-                DatabaseInputDTO databaseInputDTO = MockDataGen.generateDatabase();
+            List<DatabaseInputDTO> databases = MockDataGen.generateDatabase();
                 log.info("data generated");
-                metadataService.create(databaseInputDTO);
-                log.info("Metadata created! database={} numTables={}",
-                        databaseInputDTO.getName(),
-                        databaseInputDTO.getTables().size()
-                );
-            }
+                metadataService.createBatch(databases);
             log.info("END");
         }
     }

@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
@@ -33,6 +34,17 @@ public class MetadataService {
             return newDatabase;
         } catch (Exception e) {
             log.error("error on create msg={} cause={}", e.getMessage(), e.getCause());
+            throw e;
+        }
+    }
+
+    public void createBatch(List<DatabaseInputDTO> databases) {
+        try {
+            List<Database> saveDatabases = new ArrayList<>();
+            databases.forEach(database->saveDatabases.add(Database.parseFromDto(database)));
+            metadataRepository.saveAll(saveDatabases);
+        } catch (Exception e) {
+            log.error("error on createBatch msg={} cause={}", e.getMessage(), e.getCause());
             throw e;
         }
     }
