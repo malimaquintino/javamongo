@@ -5,6 +5,7 @@ import com.malimaquintino.javamongo.dto.ColumnInputDTO;
 import com.malimaquintino.javamongo.dto.DatabaseInputDTO;
 import com.malimaquintino.javamongo.dto.TableInputDTO;
 import lombok.experimental.UtilityClass;
+import lombok.extern.log4j.Log4j2;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @UtilityClass
+@Log4j2
 public class MockDataGen {
 
     private final List<String> dataBaseNames = List.of("OTERO", "MONET", "IA_TEST", "MAGNETO", "MAGENTO", "MILLIAN",
@@ -151,7 +153,49 @@ public class MockDataGen {
             "Gestao_De_Tecnicos", "Sistema_De_Tecnicos", "Banco_De_Dados_Tecnicos", "Controle_Relacionamento_Com_Parceiros",
             "Gestao_De_Colaboracoes", "Sistema_De_Parcerias", "Banco_De_Dados_Colaboracoes", "Controle_Cadastro_De_Funcionarios",
             "Gestao_De_Recursos_Humanos", "Sistema_De_Funcionarios", "Banco_De_Dados_Funcionarios", "Controle_Saude_E_Seguranca",
-            "Gestao_De_Seguranca_Ocupacional", "Sistema_De_Saude_Ocupacional", "Banco_De_Dados_Saude_Ocupacional"
+            "Gestao_De_Seguranca_Ocupacional", "Sistema_De_Saude_Ocupacional", "Banco_De_Dados_Saude_Ocupacional",
+            "Banco_De_Dados_Analise_Mercado", "Banco_De_Dados_Pesquisas_Clinicas", "Banco_De_Dados_Transacoes_Bancarias",
+            "Banco_De_Dados_Inteligencia_Artificial", "Banco_De_Dados_Automatizacao", "Banco_De_Dados_Redes_Sociais",
+            "Banco_De_Dados_Geolocalizacao", "Banco_De_Dados_Armazenamento_Nuvem", "Banco_De_Dados_Operacional_Empresarial",
+            "Banco_De_Dados_Estrategico", "Banco_De_Dados_Big_Data", "Banco_De_Dados_Mobile", "Banco_De_Dados_Marketing_Digital",
+            "Banco_De_Dados_Propaganda", "Banco_De_Dados_Autenticacao", "Banco_De_Dados_De_Logs", "Banco_De_Dados_Centralizado",
+            "Banco_De_Dados_Fiscal", "Banco_De_Dados_Cobranca", "Banco_De_Dados_Politicas_Empresariais",
+            "Banco_De_Dados_Monitoramento", "Banco_De_Dados_Desenvolvedores", "Banco_De_Dados_Gestao_Tecnologica",
+            "Banco_De_Dados_Compras_Online", "Banco_De_Dados_Catalogo_Produtos", "Banco_De_Dados_Licenciamento",
+            "Banco_De_Dados_Patrocinadores", "Banco_De_Dados_Eventos_Corporativos", "Banco_De_Dados_Planejamento_Estrategico",
+            "Banco_De_Dados_Controle_Fiscal", "Banco_De_Dados_Financas_Publicas", "Banco_De_Dados_De_Seguros",
+            "Banco_De_Dados_Gerenciamento_Riscos", "Banco_De_Dados_Agendamento_Reunioes", "Banco_De_Dados_Documentos_Internos",
+            "Banco_De_Dados_Solucao_Problemas", "Banco_De_Dados_Planejamento_Urbanistico", "Banco_De_Dados_Estatisticas_Educacionais",
+            "Banco_De_Dados_Certificacao_Qualidade", "Banco_De_Dados_Arquitetura", "Banco_De_Dados_Producao_Agricola",
+            "Banco_De_Dados_Clima", "Banco_De_Dados_Energia_Renovavel", "Banco_De_Dados_Planejamento_Ambiental",
+            "Banco_De_Dados_Turismo", "Banco_De_Dados_Reservas_Hoteleiras", "Banco_De_Dados_Operadoras_Turisticas",
+            "Banco_De_Dados_Controle_Hospedagem", "Banco_De_Dados_Cadeia_Fornecimento", "Banco_De_Dados_Expedicao",
+            "Banco_De_Dados_Manutencao_Industrial", "Banco_De_Dados_Rastreabilidade", "Banco_De_Dados_Frota_Veicular",
+            "Banco_De_Dados_Solucoes_Empresariais", "Banco_De_Dados_Contas_Receber", "Banco_De_Dados_Contas_Pagar",
+            "Banco_De_Dados_Conciliacao_Bancaria", "Banco_De_Dados_Relatorios_Financeiros", "Banco_De_Dados_Analise_De_Credito",
+            "Banco_De_Dados_Financas_Corporativas", "Banco_De_Dados_Gestao_Economica", "Banco_De_Dados_Projecoes_Financeiras",
+            "Banco_De_Dados_Almoxarifado", "Banco_De_Dados_Disponibilidade_Produtos", "Banco_De_Dados_Controle_Estoques",
+            "Banco_De_Dados_Analise_Competencia", "Banco_De_Dados_Mercado_Imobiliario", "Banco_De_Dados_Locacoes",
+            "Banco_De_Dados_Precificacao", "Banco_De_Dados_Publicidade", "Banco_De_Dados_Contratos_Publicos",
+            "Banco_De_Dados_Politicas_Preservacao", "Banco_De_Dados_Artes", "Banco_De_Dados_Museus", "Banco_De_Dados_Cultura",
+            "Banco_De_Dados_Patrimonio_Historico", "Banco_De_Dados_Educacao_Basica", "Banco_De_Dados_Instituicoes_Educacionais",
+            "Banco_De_Dados_Materiais_Educativos", "Banco_De_Dados_Pesquisa_Cientifica", "Banco_De_Dados_Laboratorios",
+            "Banco_De_Dados_Inovacao_Tecnologica", "Banco_De_Dados_Software_Livre", "Banco_De_Dados_Sistemas_Integrados",
+            "Banco_De_Dados_Games", "Banco_De_Dados_Streaming_Video", "Banco_De_Dados_Audios", "Banco_De_Dados_Podcasts",
+            "Banco_De_Dados_Interatividade", "Banco_De_Dados_Plataformas_E_Learning", "Banco_De_Dados_Treinamento_Corporativo",
+            "Banco_De_Dados_Avaliacao_Desempenho", "Banco_De_Dados_Relacoes_Industriais", "Banco_De_Dados_Politicas_Trabalhistas",
+            "Banco_De_Dados_Beneficios_Colaboradores", "Banco_De_Dados_Gerenciamento_Servicos", "Banco_De_Dados_Infraestrutura_TI",
+            "Banco_De_Dados_Ciberseguranca", "Banco_De_Dados_Pen_Testing", "Banco_De_Dados_Defesa_Cibernetica", "Banco_De_Dados_Seguranca_Redes",
+            "Banco_De_Dados_Protecao_Dados", "Banco_De_Dados_Privacidade_Digital", "Banco_De_Dados_Anomalias_Cyber",
+            "Banco_De_Dados_Analise_Forense", "Banco_De_Dados_Incidentes_Seguranca", "Banco_De_Dados_Backups",
+            "Banco_De_Dados_Recuperacao_Desastres", "Banco_De_Dados_Continuacao_Negocios", "Banco_De_Dados_Autenticacao_Usuarios",
+            "Banco_De_Dados_Politicas_Controle_Acesso", "Banco_De_Dados_Saude_Populacional", "Banco_De_Dados_Monitoramento_Pacientes",
+            "Banco_De_Dados_Estatisticas_Medicas", "Banco_De_Dados_Indicadores_Saude", "Banco_De_Dados_Estudo_Epidemiologico",
+            "Banco_De_Dados_Vacinacao", "Banco_De_Dados_Laboratorios_Analises", "Banco_De_Dados_Imagens_Diagnosticas",
+            "Banco_De_Dados_Telemedicina", "Banco_De_Dados_Auditoria_Saude", "Banco_De_Dados_Transplantes", "Banco_De_Dados_Banco_Sangue",
+            "Banco_De_Dados_Clinicas_Especializadas", "Banco_De_Dados_Servicos_Urgencia", "Banco_De_Dados_Teleatendimento",
+            "Banco_De_Dados_Produtos_Saude", "Banco_De_Dados_Medicamentos", "Banco_De_Dados_Logistica_Farmaceutica",
+            "Banco_De_Dados_Produtos_Hospitalares"
     );
 
     private List<String> tablesNames = List.of("CAVALO", "MAMACO", "VACALO", "TAX", "TABUCO", "GULHOTINA",
@@ -317,14 +361,16 @@ public class MockDataGen {
 
         dataBaseNames.forEach(databaseName -> {
 
+            log.info("Creating database {}", databaseName.toUpperCase());
+
             List<TableInputDTO> tableInputDTOList = new ArrayList<>();
             int tablesQtd = getRandomNumberUsingNextInt(3, 30);
             for (int i = 0; i < tablesQtd; i++) {
-                tableInputDTOList.add(generateTable());
+                tableInputDTOList.add(generateTable(databaseName.toUpperCase()));
             }
 
             databases.add(DatabaseInputDTO.builder()
-                    .name(databaseName)
+                    .name(databaseName.toUpperCase())
                     .indTechnology(randomTechnology())
                     .databaseId(UUID.randomUUID().toString())
                     .containerId(UUID.randomUUID().toString())
@@ -339,7 +385,7 @@ public class MockDataGen {
         return databases;
     }
 
-    public static TableInputDTO generateTable() {
+    public static TableInputDTO generateTable(String database) {
 
         List<ColumnInputDTO> columnInputDTOList = new ArrayList<>();
         int tablesQtd = getRandomNumberUsingNextInt(11, 101);
@@ -348,9 +394,9 @@ public class MockDataGen {
         }
 
         return TableInputDTO.builder()
-                .schema(randomDataBaseName().toUpperCase() + "_" + getRandomNumberUsingNextInt(0, 999999))
-                .name(randomTableName().toUpperCase() + "_" + getRandomNumberUsingNextInt(0, 999999))
-                .comment(randomComments())
+                .schema(database.toUpperCase())
+                .name(randomTableName().toUpperCase())
+                .comment(randomComments().toUpperCase())
                 .status("ACTIVE")
                 .columns(columnInputDTOList)
                 .build();
@@ -358,8 +404,8 @@ public class MockDataGen {
 
     public static ColumnInputDTO generateColumn() {
         return ColumnInputDTO.builder()
-                .name(randomColumnName())
-                .comment(randomComments())
+                .name(randomColumnName().toUpperCase())
+                .comment(randomComments().toUpperCase())
                 .status("ACTIVE")
                 .build();
     }
@@ -376,11 +422,6 @@ public class MockDataGen {
         return technology.get(rand.nextInt(technology.size()));
     }
 
-    public static String randomDataBaseName() {
-        SecureRandom rand = new SecureRandom();
-        return dataBaseNames.get(rand.nextInt(dataBaseNames.size()));
-    }
-
     public static String randomTableName() {
         SecureRandom rand = new SecureRandom();
         return tablesNames.get(rand.nextInt(tablesNames.size()));
@@ -388,12 +429,12 @@ public class MockDataGen {
 
     public static String randomColumnName() {
         SecureRandom rand = new SecureRandom();
-        return tablesNames.get(rand.nextInt(columnNames.size()));
+        return columnNames.get(rand.nextInt(columnNames.size()));
     }
 
     public static String randomComments() {
         SecureRandom rand = new SecureRandom();
-        return tablesNames.get(rand.nextInt(comments.size()));
+        return comments.get(rand.nextInt(comments.size()));
     }
 
     public static int getRandomNumberUsingNextInt(int min, int max) {
