@@ -2,7 +2,7 @@ package com.malimaquintino.javamongo.services;
 
 import com.malimaquintino.javamongo.dto.*;
 import com.malimaquintino.javamongo.exception.ResourceNotFoundException;
-import com.malimaquintino.javamongo.models.Database;
+import com.malimaquintino.javamongo.models.Metadata;
 import com.malimaquintino.javamongo.repositories.MetadataRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +29,10 @@ public class MetadataService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public Database create(DatabaseInputDTO inputDTO) {
+    public void create(DatabaseInputDTO inputDTO) {
         try {
-            Database database = Database.parseFromDto(inputDTO);
-            Database newDatabase = metadataRepository.save(database);
-            return newDatabase;
+            List<Metadata> metadata = Metadata.parseFromDto(inputDTO);
+            metadataRepository.saveAll(metadata);
         } catch (Exception e) {
             log.error("error on create msg={} cause={}", e.getMessage(), e.getCause());
             throw e;
@@ -42,8 +41,8 @@ public class MetadataService {
 
     public void createBatch(List<DatabaseInputDTO> databases) {
         try {
-            List<Database> saveDatabases = new ArrayList<>();
-            databases.forEach(database->saveDatabases.add(Database.parseFromDto(database)));
+            List<Metadata> saveDatabases = new ArrayList<>();
+            databases.forEach(database -> saveDatabases.addAll(Metadata.parseFromDto(database)));
             metadataRepository.saveAll(saveDatabases);
         } catch (Exception e) {
             log.error("error on createBatch msg={} cause={}", e.getMessage(), e.getCause());
@@ -51,13 +50,13 @@ public class MetadataService {
         }
     }
 
-    public Page<Database> search(SearchInputDTO searchInputDTO, Pageable pageable) {
+    public Page<Metadata> search(SearchInputDTO searchInputDTO, Pageable pageable) {
         try {
-            Page<Database> databases = metadataRepository.searchInAllFields(searchInputDTO.getSearch(), pageable);
-            if (databases.isEmpty()) {
+            Page<Metadata> metadata = metadataRepository.searchInAllFields(searchInputDTO.getSearch(), pageable);
+            if (metadata.isEmpty()) {
                 throw new ResourceNotFoundException("Nothing found!");
             }
-            return databases;
+            return metadata;
         } catch (Exception e) {
             log.error("error on search msg={} cause={}", e.getMessage(), e.getCause());
             throw e;
@@ -148,7 +147,7 @@ public class MetadataService {
 
     private long getTotalDatabases() {
         try {
-            return mongoTemplate.count(new Query(), Database.class);
+            return mongoTemplate.count(new Query(), Metadata.class);
         } catch (Exception e) {
             log.error("error on get databases total msg={} cause={}", e.getMessage(), e.getCause());
             throw e;

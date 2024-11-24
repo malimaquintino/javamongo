@@ -3,7 +3,7 @@ package com.malimaquintino.javamongo.controllers.v1;
 import com.malimaquintino.javamongo.dto.DatabaseInputDTO;
 import com.malimaquintino.javamongo.dto.SearchInputDTO;
 import com.malimaquintino.javamongo.dto.TotalOutputDTO;
-import com.malimaquintino.javamongo.models.Database;
+import com.malimaquintino.javamongo.models.Metadata;
 import com.malimaquintino.javamongo.services.MetadataService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.ASC;
 
@@ -29,15 +27,15 @@ public class MetadataController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createDatabase(@RequestBody DatabaseInputDTO inputDto) {
         log.info("Create new database");
-        Database database = metadataService.create(inputDto);
-        return ResponseEntity.status(HttpStatus.OK).body(database);
+        metadataService.create(inputDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PostMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> search(@RequestBody SearchInputDTO searchInputDTO,
                                     @PageableDefault(sort = {"name"}, direction = ASC) Pageable pageable) {
         log.info("Search..");
-        Page<Database> response = metadataService.search(searchInputDTO, pageable);
+        Page<Metadata> response = metadataService.search(searchInputDTO, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
