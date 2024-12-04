@@ -31,6 +31,7 @@ public class MetadataController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> search(@RequestBody SearchInputDTO searchInputDTO,
                                     @PageableDefault(sort = {"name"}, direction = ASC) Pageable pageable) {
