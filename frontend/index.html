@@ -23,7 +23,7 @@
 				    <input type="text" class="form-control" id="search" placeholder="Pesquisa...">
 			    </div>
 			    <div class="col">
-						<select class="form-select" aria-label="Default select example">
+						<select class="form-select" aria-label="Default select example" id="type">
 							<option value="all" selected>Todos</option>
 							<option value="database">Database</option>
 							<option value="table">Table</option>
@@ -79,6 +79,18 @@
 							
 						</tbody>
 					</table>
+				</div>
+
+				<div class="row mt-3">
+					<div class="col">
+						<button type="button" class="btn btn-primary" onclick="anterior()">Anterior</button>
+					</div>
+					<div class="col">
+						<input type="text" id="pageOffset" readonly value="1">
+					</div>
+					<div class="col">
+						<button type="button" class="btn btn-primary" onclick="proximo()">Próximo</button>
+					</div>
 				</div>
 
 			</div>

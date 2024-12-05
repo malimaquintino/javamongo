@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SearchInputDTO {
     private String search;
+    private String type;
 }

@@ -1,12 +1,14 @@
-function pesquisa(){
+function pesquisa() {
 	var inputValue = $('#search').val();
-	console.log(inputValue)
+	var type = $('#type').val();
+	var pageOffset = parseInt($('#pageOffset').val())-1;
+	console.log(type);
 
     $.ajax({
-        url: 'http://localhost:8080/v1/metadata/search',
+        url: 'http://localhost:8080/v1/metadata/search?page='+pageOffset,
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ search: inputValue }),
+        data: JSON.stringify({ search: inputValue, type: type }),
         success: function (response) {
             createResponse(response);
         },
@@ -32,4 +34,19 @@ function createResponse(response) {
 	})
 
 	$('#table-response').append(html);
+}
+
+function proximo() {
+	var pageOffset = parseInt($('#pageOffset').val()) + 1;
+	$('#pageOffset').val(pageOffset);
+	pesquisa();
+}
+
+function anterior() {
+	var pageOffset = parseInt($('#pageOffset').val()) - 1;
+	if (pageOffset < 1) {
+		pageOffset = 1;
+	}
+	$('#pageOffset').val(pageOffset);
+	pesquisa();
 }
