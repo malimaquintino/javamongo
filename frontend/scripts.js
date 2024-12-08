@@ -13,6 +13,7 @@ function pesquisa() {
             createResponse(response);
         },
         error: function (xhr, status, error) {
+        	$('#table-response').empty();
             alert(`<p>Erro: ${xhr.responseText || status}</p>`);
         }
     });
@@ -24,12 +25,12 @@ function createResponse(response) {
 
 	response.content.forEach(line => {
 		html+="<tr>";
-		html+="<td>"+line['type']+"</td>";
-		html+="<td>"+line['databaseName']+"</td>";
-		html+="<td>"+line['schema']+"</td>";
-		html+="<td>"+line['tableName']+"</td>";
-		html+="<td>"+line['columnName']+"</td>";
-		html+="<td>"+line['indTechnology']+"</td>";
+		html+="<td>"+ (line['type']!=null ? line['type'] : "-") +"</td>";
+		html+="<td>"+ (line['databaseName']!=null ? line['databaseName'] : "-") +"</td>";
+		html+="<td>"+ (line['schema']!=null ? line['schema'] : "-") +"</td>";
+		html+="<td>"+ (line['tableName']!=null ? line['tableName'] : "-") +"</td>";
+		html+="<td>"+ (line['columnName']!=null ? line['columnName'] : "-") +"</td>";
+		html+="<td>"+ (line['indTechnology']!=null ? line['indTechnology'] : "-") +"</td>";
 		html+="</tr>";
 	})
 

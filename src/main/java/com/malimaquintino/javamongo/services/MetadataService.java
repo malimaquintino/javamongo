@@ -52,7 +52,8 @@ public class MetadataService {
 
     public Page<Metadata> search(SearchInputDTO searchInputDTO, Pageable pageable) {
         try {
-            Page<Metadata> metadata = metadataRepository.searchInAllFields(searchInputDTO.getSearch(), pageable);
+            Page<Metadata> metadata = metadataRepository
+                    .searchInAllFields(searchInputDTO.getSearch(), getType(searchInputDTO.getType()), pageable);
             if (metadata.isEmpty()) {
                 throw new ResourceNotFoundException("Nothing found!");
             }
@@ -61,6 +62,16 @@ public class MetadataService {
             log.error("error on search msg={} cause={}", e.getMessage(), e.getCause());
             throw e;
         }
+    }
+
+    private List<String> getType(String inputType) {
+        return switch (inputType.toLowerCase()) {
+            case "column" -> List.of("COLUMN");
+            case "table" -> List.of("TABLE");
+            case "database" -> List.of("DATABASE");
+            default -> List.of("COLUMN", "TABLE", "DATABASE");
+        };
+
     }
 
     public TotalOutputDTO getTotals() {
