@@ -1,3 +1,19 @@
+$(document).ready(function () {
+    $.ajax({
+        url: 'http://localhost:8080/v1/metadata/totals',
+        type: 'GET',
+        contentType: 'application/json',
+        success: function (response) {
+           $('#total').append("<p>"+response+"</p>")
+        },
+        error: function (xhr, status, error) {
+            alert(`<p>Erro: ${xhr.responseText || status}</p>`);
+        }
+    });
+});
+
+
+
 function pesquisa() {
 	var inputValue = $('#search').val();
 	var type = $('#type').val();

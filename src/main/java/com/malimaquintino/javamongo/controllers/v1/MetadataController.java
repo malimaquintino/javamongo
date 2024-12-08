@@ -2,7 +2,6 @@ package com.malimaquintino.javamongo.controllers.v1;
 
 import com.malimaquintino.javamongo.dto.DatabaseInputDTO;
 import com.malimaquintino.javamongo.dto.SearchInputDTO;
-import com.malimaquintino.javamongo.dto.TotalOutputDTO;
 import com.malimaquintino.javamongo.models.Metadata;
 import com.malimaquintino.javamongo.services.MetadataService;
 import lombok.extern.log4j.Log4j2;
@@ -20,6 +19,7 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 @Log4j2
 @RestController
 @RequestMapping("/v1/metadata")
+@CrossOrigin(origins = "*")
 public class MetadataController {
     @Autowired
     private MetadataService metadataService;
@@ -31,7 +31,6 @@ public class MetadataController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> search(@RequestBody SearchInputDTO searchInputDTO,
                                     @PageableDefault(sort = {"name"}, direction = ASC) Pageable pageable) {
@@ -43,8 +42,8 @@ public class MetadataController {
     @GetMapping(path = "totals")
     public ResponseEntity<?> getTotals() {
         log.info("get totals..");
-        TotalOutputDTO response = metadataService.getTotals();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        Long total = metadataService.getTotal();
+        return ResponseEntity.status(HttpStatus.OK).body(total);
     }
 
 }
